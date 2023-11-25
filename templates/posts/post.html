@@ -14,8 +14,14 @@
             <div class="card" style="width: 18rem;">
                 <div class="card-body">
                     <h5 class="card-title">{{ post.title }}</h5>
-                    <h6 class="card-title">{{ post.title }}</h6>
-                    <a href="#" class="card-link">More</a>
+                    <h6 class="card-title">{{ post.rate }}</h6>
+                        {% for hashtag in post.hashtags.all %}
+                            <a href="#" class="btn btn-primary">#{{ hashtag.title }}</a>
+                        {% endfor %}
+{#                        {% for hashtag in post.hashtags.all %}#}
+{#                            <a href="#" class="btn btn-primary">#{{ hashtag.title }}</a>#}
+{#                        {% endfor %}#}
+                    <a href="#" class="btn btn-primary">More</a>
                 </div>
             </div>
         {% endfor %}
