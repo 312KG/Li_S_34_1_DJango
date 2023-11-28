@@ -12,16 +12,14 @@
     <div class="posts">
         {% for post in post %}
             <div class="card" style="width: 18rem;">
+                <img src="/media/{{ post.image }}" alt="">
                 <div class="card-body">
-                    <h5 class="card-title">{{ post.title }}</h5>
-                    <h6 class="card-title">{{ post.rate }}</h6>
+                      <h5 class="card-title">{{ post.title }}</h5>
+                      <p class="card-text">{{ post.rate }}</p>
                         {% for hashtag in post.hashtags.all %}
                             <a href="#" class="btn btn-primary">#{{ hashtag.title }}</a>
                         {% endfor %}
-{#                        {% for hashtag in post.hashtags.all %}#}
-{#                            <a href="#" class="btn btn-primary">#{{ hashtag.title }}</a>#}
-{#                        {% endfor %}#}
-                    <a href="#" class="btn btn-primary">More</a>
+                    <a href="/posts/{{ post.id }}/" class="btn btn-primary">More</a>
                 </div>
             </div>
         {% endfor %}

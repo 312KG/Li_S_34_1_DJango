@@ -43,6 +43,18 @@ def post_view(request):
 
         return render(request, 'posts/post.html', context=context)
 
+def post_detail_view(request, post_id):
+    if request.method == 'GET':
+        try:
+            post = Equipment.objects.get(id=post_id)
+        except Equipment.DoesNotExist:
+            return render(request, 'errors/404.html')
+
+        context = {
+            "post": post
+        }
+        return render(request, 'posts/post_detail.html', context)
+
 def hashtags_view(request):
     if request.method == 'GET':
         hashtags = HashTag.objects.all()
@@ -70,3 +82,4 @@ def categories_view(request):
             'posts/categories.html',
             context=context
         )
+
