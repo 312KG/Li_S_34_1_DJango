@@ -1,0 +1,35 @@
+{% extends 'layouts/index.html' %}
+
+{% block content %}
+    <form action="/post/" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+{#        {{ form.errors }}#}
+        <input type="submit" value="Create Post">
+    </form>
+{% endblock %}
+
+
+
+
+{#{% extends 'layouts/index.html' %}#}
+{##}
+{#{% block content %}#}
+{#        <div class="create_feedback">#}
+{#            <form action="/post/{{ post.id }}/" method="post">#}
+{#                {% csrf_token %}#}
+{#                {{ form.as_p }}#}
+{#                <input type="submit" value="Add Feedback">#}
+{#            </form>#}
+{#        </div>#}
+{#        <div class="feedbacks">#}
+{#            {% for feedback in feedbacks %}#}
+{#                <div class="feedback">#}
+{#                    <h6>{{ feedback.title }}</h6>#}
+{#                </div>#}
+{#            {% endfor %}#}
+{#        </div>#}
+{##}
+{#{% endblock %}#}
+

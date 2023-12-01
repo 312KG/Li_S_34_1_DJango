@@ -49,7 +49,9 @@ class Review(models.Model):
 # review = Review.objects.get(id=1)
 # review.post  # 1 obj
 
-
+class Feedback(models.Model):
+    title = models.TextField()
+    equipment = models.ForeignKey(Equipment, on_delete=models.CASCADE)
 
 
 

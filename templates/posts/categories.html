@@ -5,8 +5,30 @@
     Categories
 </h1>
 
-{% for i in categories %}
-    <a href="#" class="btn btn-primary">#{{ i.title }}</a>
-{% endfor %}
+{#<div class="list-group">#}
+{#    {% for i in categories %}#}
+{#    <a href="#" class="btn btn-primary">#{{ i.title }}</a>#}
+{#    <b href="#" class="list-group-item list-group-item-action">{{ i.title }}</b>#}
+{#    <a href="#" class="list-group-item list-group-item-action active" aria-current="true">{{ i.title }}</a>#}
+
+<ul class="list-group">
+    {% for i in categories %}
+  <li class="list-group-item">{{ i.title }}</li>
+
+    {% endfor %}
+{#</div>#}
+{#</ul>#}
+{##}
+{#<h2>#}
+{#    Create Category#}
+{#</h2>#}
+{##}
+{#<form action="" method="POST" enctype="multipart/form-data">#}
+{#    {% csrf_token %}#}
+{#    {{ form.as_p }}#}
+{##}
+{#    <input type="submit" value="Create category">#}
+{#</form>#}
 
 {% endblock %}
+

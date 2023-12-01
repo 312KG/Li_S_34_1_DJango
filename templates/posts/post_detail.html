@@ -7,11 +7,15 @@
 </h1>
 
 <h2>
-    {{ post.title }} {{ post.rate }}
+    {{ post.title }}
+</h2>
+
+<h2>
+    Rate: {{ post.rate }}
 </h2>
 
 <p>
-    {{ post.content }}
+    {{ post.description }}
 </p>
 
 <img src="/media/{{ post.image }}" width="300">
@@ -30,5 +34,23 @@
 </h2>
     <p>Created: {{ post.created_at }}</p>
     <p>Updated: {{ post.updated_at }}</p>
+
+<h1>Feedback</h1>
+
+<div class="create_feedback">
+    <form action="/post/{{ post.id }}/" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Add Feedback">
+    </form>
+</div>
+<div class="feedbacks">
+    {% for feedback in feedbacks %}
+        <div class="feedback">
+            <h6>{{ feedback.title }}</h6>
+        </div>
+    {% endfor %}
+</div>
+
 
 {% endblock %}

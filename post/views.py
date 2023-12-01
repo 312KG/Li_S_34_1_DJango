@@ -1,7 +1,8 @@
 import datetime
 
-from django.shortcuts import HttpResponse, render
-from post.models import Equipment, HashTag, Review, Category
+from django.shortcuts import HttpResponse, render, redirect
+from post.models import Equipment, HashTag, Review, Category, Feedback
+from post.forms import PostCreateForm, PostCreateForm2, CategoryCreateForm, FeedbackCreateForm
 
 
 # def hello(request):
@@ -45,15 +46,31 @@ def post_view(request):
 
 def post_detail_view(request, post_id):
     if request.method == 'GET':
-        try:
-            post = Equipment.objects.get(id=post_id)
-        except Equipment.DoesNotExist:
-            return render(request, 'errors/404.html')
+
+        post = Equipment.objects.get(id=post_id)
+        feedbacks = Feedback.objects.filter(equipment=post)
 
         context = {
-            "post": post
+            "post": post,
+            'feedback': feedbacks,
+            'form': FeedbackCreateForm
         }
-        return render(request, 'posts/post_detail.html', context)
+        return render(request, 'posts/post_detail.html', context=context)
+    if request.method == 'POST':
+        post = Equipment.objects.get(id=post_id)
+        feedbacks = Feedback.objects.filter(post=post)
+        form = FeedbackCreateForm(data=request.POST)
+        if form.is_valid():
+            Feedback.objects.create(
+                title=form.cleaned_data.get('title'),
+                post=post
+            )
+            return redirect(f'/post/{post.id}/')
+        return render(request, 'posts/post_detail.html', context={
+            "post": post,
+            'feedback': feedbacks,
+            'form': FeedbackCreateForm
+        })
 
 def hashtags_view(request):
     if request.method == 'GET':
@@ -82,4 +99,54 @@ def categories_view(request):
             'posts/categories.html',
             context=context
         )
+
+def post_create(request):
+    if request.method == 'GET':
+        context = {
+            'form': PostCreateForm
+        }
+        return render(request, 'posts/create.html', context)
+    if request.method == 'POST':
+        form = PostCreateForm(request.POST, request.FILES)
+        if form.is_valid():
+            Equipment.objects.create(**form.cleaned_data)
+            return redirect("/post/")
+            # Equipment.objects.create(
+            #     title=form.cleaned_data['title'],
+            #     description=form.cleaned_data['description'],
+            #     image=form.cleaned_data['image'],
+            #     price=form.cleaned_data['price'],
+            #     rate=form.cleaned_data['rate']
+            # )
+            # return redirect('/post/')
+
+        context = {
+            'form': form
+        }
+
+        # Equipment.objects.create(
+        #     title=title, description=description, image=image, price=price, rate=rate
+        # )
+        return redirect('/posts/create.html', context)
+        # return render(request, 'posts/create.html', context)
+
+
+def category_create(request):
+    if request.method == 'GET':
+        context = {
+            'form': CategoryCreateForm
+        }
+        return render(request, 'posts/create_category.html', context)
+    if request.method == 'POST':
+        form = CategoryCreateForm(request.POST, request.FILES)
+        if form.is_valid():
+            Equipment.objects.create(**form.cleaned_data)
+            return redirect("/categories/")
+
+        context = {
+            'form': form
+        }
+
+        return redirect('/posts/create_category.html', context)
+
 
