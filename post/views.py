@@ -36,6 +36,7 @@ def main(request):
 
 def post_view(request):
     if request.method == 'GET':
+        print(request.user) #показывает AnonymousUser в терминале, либо зарегистрированного юзера
         posts = Equipment.objects.all()  # QuerySet
 
         context = {
